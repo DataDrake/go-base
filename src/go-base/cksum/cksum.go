@@ -1,22 +1,21 @@
 package main
 import (
 	"os"
-	"encoding/base64"
 	"io"
-	"log"
 	"fmt"
 	"flag"
+	"hash/adler32"
 )
 
 func usage(){
-	fmt.Println("Usage: base64 [OPTION]... [FILE]")
+	fmt.Println("Usage: cksum [FILE]")
 	flag.PrintDefaults()
 }
 
 func main() {
 	var err error
+	filename := ""
 	flag.Usage = func() {usage()}
-	decode := flag.Bool("d",false,"decode data")
 	flag.Parse()
 
 	args := flag.Args()
@@ -31,22 +30,18 @@ func main() {
 				fmt.Println(err.Error())
 				return
 			}
+			filename = args[0]
 		}
 	default:
 		usage()
 		return
 	}
 
-	if *decode {
-		dec := base64.NewDecoder(base64.StdEncoding, input)
-		_, err = io.Copy(os.Stdout, dec)
-	} else {
-		enc := base64.NewEncoder(base64.StdEncoding, os.Stdout)
-		_, err = io.Copy(enc, input)
-		enc.Close()
-		fmt.Println()
-	}
+	h := adler32.New()
+	size, err := io.Copy(h, input)
 	if err != nil {
-		log.Fatalln(err.Error())
+		fmt.Println(err.Error())
+		return
 	}
+	fmt.Printf("%d %d %s\n",h.Sum32(),size,filename)
 }
