@@ -8,8 +8,14 @@ import (
 	"flag"
 )
 
+func usage(){
+	fmt.Println("Usage: base64 [OPTION]... [FILE]")
+	flag.PrintDefaults()
+}
+
 func main() {
 	var err error
+	flag.Usage = func() {usage()}
 	decode := flag.Bool("d",false,"decode data")
 	flag.Parse()
 
@@ -24,7 +30,7 @@ func main() {
 			log.Fatal(err.Error())
 		}
 	default:
-		log.Fatalln("Usage: base64 [OPTION]... [FILE]")
+		usage()
 	}
 
 	if *decode {
