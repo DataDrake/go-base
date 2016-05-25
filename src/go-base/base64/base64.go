@@ -25,9 +25,12 @@ func main() {
 	switch len(args) {
 	case 0:
 	case 1:
-		input,err = os.Open(args[0])
-		if err != nil{
-			log.Fatal(err.Error())
+		if args[0] != "-" {
+			input, err = os.Open(args[0])
+			if err != nil {
+				fmt.Println(err.Error())
+				return
+			}
 		}
 	default:
 		usage()
