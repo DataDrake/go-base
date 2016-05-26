@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"os"
 	"strings"
 )
 
@@ -23,14 +24,14 @@ func main() {
 
 	for _, v := range args {
 		if *escape && !*noescape {
-			v = strings.Replace(v,"\\n","\n",-1)
-			fmt.Printf("%s",v)
+			v = strings.Replace(v, "\\n", "\n", -1)
+			fmt.Printf("%s", v)
 		} else {
-			fmt.Printf("%s",v)
+			fmt.Printf("%s", v)
 		}
 		if !*nonewlines {
 			println()
 		}
 	}
-
+	os.Exit(0)
 }
