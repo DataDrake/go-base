@@ -5,8 +5,8 @@ import (
 	"flag"
 	"fmt"
 	"os"
-	"strings"
 	"strconv"
+	"strings"
 )
 
 func usage() {
@@ -36,7 +36,7 @@ func main() {
 		f, err := os.Open(v)
 		if err != nil {
 			fmt.Println(err.Error())
-			return
+			os.Exit(1)
 		}
 
 		scanner := bufio.NewScanner(f)
@@ -81,5 +81,5 @@ func main() {
 
 		f.Close()
 	}
-
+	os.Exit(0)
 }
