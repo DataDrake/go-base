@@ -7,12 +7,12 @@ import (
 )
 
 func usage() {
-	fmt.Println("Usage: true [OPTION]...")
+	fmt.Println("Usage: false [OPTION]...")
 	flag.PrintDefaults()
 }
 
 func main() {
 	flag.Usage = func() { usage() }
 	flag.Parse()
-	os.Exit(0)
+	os.Exit(1)
 }
