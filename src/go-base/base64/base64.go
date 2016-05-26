@@ -1,22 +1,23 @@
 package main
+
 import (
-	"os"
 	"encoding/base64"
+	"flag"
+	"fmt"
 	"io"
 	"log"
-	"fmt"
-	"flag"
+	"os"
 )
 
-func usage(){
+func usage() {
 	fmt.Println("Usage: base64 [OPTION]... [FILE]")
 	flag.PrintDefaults()
 }
 
 func main() {
 	var err error
-	flag.Usage = func() {usage()}
-	decode := flag.Bool("d",false,"decode data")
+	flag.Usage = func() { usage() }
+	decode := flag.Bool("d", false, "decode data")
 	flag.Parse()
 
 	args := flag.Args()
@@ -34,7 +35,7 @@ func main() {
 		}
 	default:
 		usage()
-		return
+		os.exit(1)
 	}
 
 	if *decode {
@@ -48,5 +49,7 @@ func main() {
 	}
 	if err != nil {
 		log.Fatalln(err.Error())
+		os.Exit(1)
 	}
+	os.Exit(0)
 }
