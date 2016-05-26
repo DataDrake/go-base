@@ -35,7 +35,7 @@ func main() {
 		}
 	default:
 		usage()
-		os.exit(1)
+		os.Exit(1)
 	}
 
 	if *decode {
