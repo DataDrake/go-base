@@ -1,13 +1,14 @@
 package main
+
 import (
-	"os"
-	"io"
-	"fmt"
 	"flag"
+	"fmt"
 	"hash/adler32"
+	"io"
+	"os"
 )
 
-func usage(){
+func usage() {
 	fmt.Println("Usage: cksum [FILE]")
 	flag.PrintDefaults()
 }
@@ -15,7 +16,7 @@ func usage(){
 func main() {
 	var err error
 	filename := ""
-	flag.Usage = func() {usage()}
+	flag.Usage = func() { usage() }
 	flag.Parse()
 
 	args := flag.Args()
@@ -34,14 +35,15 @@ func main() {
 		}
 	default:
 		usage()
-		return
+		os.Exit(1)
 	}
 
 	h := adler32.New()
 	size, err := io.Copy(h, input)
 	if err != nil {
 		fmt.Println(err.Error())
-		return
+		os.Exit(1)
 	}
-	fmt.Printf("%d %d %s\n",h.Sum32(),size,filename)
+	fmt.Printf("%d %d %s\n", h.Sum32(), size, filename)
+	os.Exit(0)
 }
