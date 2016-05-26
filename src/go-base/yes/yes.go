@@ -1,16 +1,18 @@
 package main
+
 import (
-	"fmt"
 	"flag"
+	"fmt"
+	"os"
 )
 
-func usage(){
+func usage() {
 	fmt.Println("Usage: yes [String]")
 	flag.PrintDefaults()
 }
 
 func main() {
-	flag.Usage = func() {usage()}
+	flag.Usage = func() { usage() }
 	flag.Parse()
 
 	args := flag.Args()
@@ -22,6 +24,7 @@ func main() {
 		s = args[0]
 	default:
 		usage()
+		os.Exit(1)
 	}
 
 	for {
