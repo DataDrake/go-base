@@ -1,0 +1,131 @@
+# Utilities
+
+- [ ] Processes
+    - [ ] nice
+    - [ ] nohup
+    - [ ] nproc
+    - [ ] runcon
+    - [ ] sleep
+    - [ ] timeout
+
+- [ ] Streams
+    - [ ] Input/Output
+        - [x] cat
+        - [x] echo
+        - [ ] pr
+        - [ ] printf
+        - [ ] tac
+        - [x] yes
+    - [ ] Filters
+        - [x] comm
+        - [ ] csplit
+        - [ ] cut
+        - [ ] expand
+        - [ ] fmt
+        - [ ] fold
+        - [ ] head
+        - [ ] join
+        - [ ] nl
+        - [ ] od
+        - [ ] paste
+        - [ ] ptx
+        - [ ] shuf
+        - [ ] sort
+        - [ ] split
+        - [ ] tail
+        - [ ] tr
+        - [ ] tsort
+        - [ ] unexpand
+        - [ ] uniq
+        - [ ] wc
+    - [ ] Redirection
+        - [ ] stdbuf
+        - [ ] tee
+
+- [ ] Encoding
+    - [x] base32
+    - [x] base64
+    - [ ] basenc
+
+- [ ] Environment
+    - [ ] chroot
+    - [ ] date
+    - [ ] env
+    - [ ] printenv
+    - [ ] pwd
+    - [ ] stty
+    - [x] tty
+
+- [ ] Files & Directories
+    - [ ] Creation
+        - [x] cp
+        - [ ] install
+        - [ ] link
+        - [ ] ln
+        - [ ] mkdir
+        - [ ] mkfifo
+        - [ ] mknod
+        - [ ] mktemp
+        - [ ] touch
+    - [ ] Deletion
+        - [ ] rm
+        - [ ] rmdir
+        - [ ] shred
+        - [ ] unlink
+    - [ ] Filesystems
+        - [ ] df
+        - [ ] du
+        - [ ] stat
+        - [ ] sync
+    - [ ] Modification
+        - [ ] chcon
+        - [ ] chgrp
+        - [ ] chmod
+        - [ ] chown
+        - [ ] dd
+        - [ ] mv
+        - [ ] truncate
+    - [ ] Paths
+        - [x] basename
+        - [ ] dir
+        - [ ] dircolors
+        - [ ] dirname
+        - [ ] ls
+        - [ ] pathchk
+        - [ ] readlink
+        - [ ] realpath
+        - [ ] vdir
+
+- [ ] Math & Logic
+    - [ ] expr
+    - [ ] factor
+    - [x] false
+    - [ ] numfmt
+    - [ ] seq
+    - [ ] test
+        - [ ] Alias [
+    - [x] true 
+
+- [ ] System
+    - [ ] hostid
+    - [ ] uname
+
+- [ ] Sums
+    - [ ] b2sum
+    - [x] cksum
+    - [ ] md5sum
+    - [ ] sha1sum
+    - [ ] sha224sum
+    - [ ] sha256sum
+    - [ ] sha384sum
+    - [ ] sha512sum
+    - [ ] sum
+
+- [ ] Users
+    - [ ] groups
+    - [ ] id
+    - [ ] logname
+    - [ ] pinky
+    - [ ] users
+    - [ ] who
+    - [x] whoami
