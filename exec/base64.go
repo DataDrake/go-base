@@ -3,7 +3,7 @@ package exec
 
 import (
 	"encoding/base64"
-	"github.com/DataDrake/go-base/cmd"
+	"github.com/DataDrake/cli-ng/cmd"
 	"fmt"
 	"io"
 	"log"
@@ -14,7 +14,7 @@ func init() {
 	cmd.Register(&Base64)
 }
 
-var Base64 = cmd.CMD {
+var Base64 = cmd.Sub {
 	Name: "base64",
 	Short: "base64 encode/decode data and print to standard output",
 	Flags: &Base64Flags{},
@@ -30,7 +30,7 @@ type Base64Args struct {
 	File string `desc:"File to encode or decode"`
 }
 
-func Base64Run(r *cmd.Root, c *cmd.CMD) {
+func Base64Run(r *cmd.Root, c *cmd.Sub) {
 	// gFlags := r.Flags.(*GlobalFlags)
 	flags := c.Flags.(*Base64Flags)
 	args := c.Args.(*Base64Args)

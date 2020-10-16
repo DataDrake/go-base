@@ -2,7 +2,7 @@
 package exec
 
 import (
-	"github.com/DataDrake/go-base/cmd"
+	"github.com/DataDrake/cli-ng/cmd"
 	"os"
 )
 
@@ -10,7 +10,7 @@ func init() {
     cmd.Register(&False)
 }
 
-var False = cmd.CMD {
+var False = cmd.Sub {
     Name: "false",
     Short: "do nothing, unsuccessfully",
     Flags: &FalseFlags{},
@@ -22,7 +22,7 @@ type FalseFlags struct {}
 
 type FalseArgs struct {}
 
-func FalseRun(r *cmd.Root, c *cmd.CMD) {
+func FalseRun(r *cmd.Root, c *cmd.Sub) {
     // gFlags := r.Flags.(*GlobalFlags)
     //flags := c.Flags.(*FalseFlags)
     //args := c.Args.(*FalseArgs)

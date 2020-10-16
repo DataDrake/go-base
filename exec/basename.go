@@ -3,7 +3,7 @@ package exec
 
 import (
 	"fmt"
-	"github.com/DataDrake/go-base/cmd"
+	"github.com/DataDrake/cli-ng/cmd"
 	"os"
 	"path/filepath"
 	"strings"
@@ -13,7 +13,7 @@ func init() {
     cmd.Register(&Basename)
 }
 
-var Basename = cmd.CMD {
+var Basename = cmd.Sub {
     Name: "basename",
     Short: "strip directory and suffix from filenames",
     Flags: &BasenameFlags{},
@@ -43,13 +43,13 @@ func getBase(path string, suffix string, zero bool) {
 	}
 }
 
-func BasenameRun(r *cmd.Root, c *cmd.CMD) {
+func BasenameRun(r *cmd.Root, c *cmd.Sub) {
     // gFlags := r.Flags.(*GlobalFlags)
     flags := c.Flags.(*BasenameFlags)
     args := c.Args.(*BasenameArgs)
 
 	if len(args.Paths) == 0 {
-		cmd.Usage(r,c)
+		r.SubUsage(c)
 		os.Exit(1)
 	}
 
@@ -59,7 +59,7 @@ func BasenameRun(r *cmd.Root, c *cmd.CMD) {
 		}
 	} else {
 		if len(args.Paths) > 0 {
-			cmd.Usage(r,c)
+			r.SubUsage(c)
 			os.Exit(1)
 		}
 		getBase(args.Paths[0], "", flags.Zero)

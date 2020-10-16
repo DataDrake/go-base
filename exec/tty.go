@@ -3,7 +3,7 @@ package exec
 
 import (
 	"fmt"
-	"github.com/DataDrake/go-base/cmd"
+	"github.com/DataDrake/cli-ng/cmd"
 	"os"
 	"path/filepath"
 	"syscall"
@@ -13,7 +13,7 @@ func init() {
     cmd.Register(&TTY)
 }
 
-var TTY = cmd.CMD {
+var TTY = cmd.Sub {
     Name: "tty",
     Short: "print the file name of the terminal connected to standard input",
     Flags: &TTYFlags{},
@@ -51,7 +51,7 @@ func findRdev(dev_id uint64, path string) (dev string, err error) {
 	return "", fmt.Errorf("device not found")
 }
 
-func TTYRun(r *cmd.Root, c *cmd.CMD) {
+func TTYRun(r *cmd.Root, c *cmd.Sub) {
     // gFlags := r.Flags.(*GlobalFlags)
     flags := c.Flags.(*TTYFlags)
     // args := c.Args.(*TTYArgs)

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/DataDrake/go-base/cmd"
+	"github.com/DataDrake/cli-ng/cmd"
 	_ "github.com/DataDrake/go-base/exec"
 )
 
@@ -12,6 +12,7 @@ func main() {
 		Name: "go-base",
 		Short: "Alternative to GNU Coreutils written in Go",
 		Flags: &GlobalFlags{},
+        Single: true,
 	}
 	r.Run()
 }

@@ -3,7 +3,7 @@ package exec
 
 import (
 	"fmt"
-	"github.com/DataDrake/go-base/cmd"
+	"github.com/DataDrake/cli-ng/cmd"
 	"os"
 	"os/user"
 )
@@ -12,7 +12,7 @@ func init() {
     cmd.Register(&WhoAmI)
 }
 
-var WhoAmI = cmd.CMD {
+var WhoAmI = cmd.Sub {
     Name: "whoami",
     Short: "print effective userid",
     Flags: &WhoAmIFlags{},
@@ -23,7 +23,7 @@ var WhoAmI = cmd.CMD {
 type WhoAmIFlags struct {}
 type WhoAmIArgs struct {}
 
-func WhoAmIRun(r *cmd.Root, c *cmd.CMD) {
+func WhoAmIRun(r *cmd.Root, c *cmd.Sub) {
     // gFlags := r.Flags.(*GlobalFlags)
     // flags := c.Flags.(*WhoAmIFlags)
     // args := c.Args.(*WhoAmIArgs)

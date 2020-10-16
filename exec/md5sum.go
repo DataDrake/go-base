@@ -3,14 +3,14 @@ package exec
 
 import (
 	"crypto"
-	"github.com/DataDrake/go-base/cmd"
+	"github.com/DataDrake/cli-ng/cmd"
 )
 
 func init() {
     cmd.Register(&MD5Sum)
 }
 
-var MD5Sum = cmd.CMD {
+var MD5Sum = cmd.Sub {
     Name: "md5sum",
     Short: "compute and check MD5 sums",
     Flags: &SumFlags{
@@ -20,7 +20,7 @@ var MD5Sum = cmd.CMD {
     Run: MD5SumRun,
 }
 
-func MD5SumRun(r *cmd.Root, c *cmd.CMD) {
+func MD5SumRun(r *cmd.Root, c *cmd.Sub) {
     // gFlags := r.Flags.(*GlobalFlags)
     flags := c.Flags.(*SumFlags)
     args := c.Args.(*SumArgs)

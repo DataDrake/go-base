@@ -3,7 +3,7 @@ package exec
 
 import (
 	"fmt"
-	"github.com/DataDrake/go-base/cmd"
+	"github.com/DataDrake/cli-ng/cmd"
 	"hash/adler32"
 	"io"
 	"os"
@@ -13,7 +13,7 @@ func init() {
     cmd.Register(&CkSum)
 }
 
-var CkSum = cmd.CMD {
+var CkSum = cmd.Sub {
     Name: "cksum",
     Short: "checksum and count the bytes in a file",
     Flags: &CkSumFlags{},
@@ -27,7 +27,7 @@ type CkSumArgs struct {
     File string `desc:"File to encode or decode"`
 }
 
-func CkSumRun(r *cmd.Root, c *cmd.CMD) {
+func CkSumRun(r *cmd.Root, c *cmd.Sub) {
     // gFlags := r.Flags.(*GlobalFlags)
     // flags := c.Flags.(*CkSumFlags)
     args := c.Args.(*CkSumArgs)

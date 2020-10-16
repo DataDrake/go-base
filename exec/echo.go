@@ -3,7 +3,7 @@ package exec
 
 import (
 	"fmt"
-	"github.com/DataDrake/go-base/cmd"
+	"github.com/DataDrake/cli-ng/cmd"
 	"os"
 	"strings"
 )
@@ -12,7 +12,7 @@ func init() {
     cmd.Register(&Echo)
 }
 
-var Echo = cmd.CMD {
+var Echo = cmd.Sub {
     Name: "echo",
     Short: "display a line of text",
     Flags: &EchoFlags{
@@ -32,7 +32,7 @@ type EchoArgs struct {
     Strings []string `desc:"strings to print"`
 }
 
-func EchoRun(r *cmd.Root, c *cmd.CMD) {
+func EchoRun(r *cmd.Root, c *cmd.Sub) {
     // gFlags := r.Flags.(*GlobalFlags)
     flags := c.Flags.(*EchoFlags)
     args := c.Args.(*EchoArgs)

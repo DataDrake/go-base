@@ -4,7 +4,7 @@ package exec
 import (
 	"bufio"
 	"fmt"
-	"github.com/DataDrake/go-base/cmd"
+	"github.com/DataDrake/cli-ng/cmd"
 	"os"
 	"strconv"
 	"strings"
@@ -14,7 +14,7 @@ func init() {
     cmd.Register(&Cat)
 }
 
-var Cat = cmd.CMD {
+var Cat = cmd.Sub {
     Name: "cat",
     Short: "concatenate files and print on the standard output",
     Flags: &CatFlags{},
@@ -72,7 +72,7 @@ var catReplaces = []string {
 	"\177", "^?",
 }
 
-func CatRun(r *cmd.Root, c *cmd.CMD) {
+func CatRun(r *cmd.Root, c *cmd.Sub) {
     // gFlags := r.Flags.(*GlobalFlags)
     flags := c.Flags.(*CatFlags)
     args := c.Args.(*CatArgs)

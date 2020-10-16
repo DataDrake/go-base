@@ -3,14 +3,14 @@ package exec
 
 import (
 	"crypto"
-	"github.com/DataDrake/go-base/cmd"
+	"github.com/DataDrake/cli-ng/cmd"
 )
 
 func init() {
     cmd.Register(&B2Sum)
 }
 
-var B2Sum = cmd.CMD {
+var B2Sum = cmd.Sub {
     Name: "b2sum",
     Short: "compute and check BLAKE2 message digest",
     Flags: &B2SumFlags{
@@ -40,7 +40,7 @@ func (fs *B2SumFlags) convert() *SumFlags {
 	}
 }
 
-func B2SumRun(r *cmd.Root, c *cmd.CMD) {
+func B2SumRun(r *cmd.Root, c *cmd.Sub) {
     // gFlags := r.Flags.(*GlobalFlags)
     flags := c.Flags.(*B2SumFlags)
     args := c.Args.(*SumArgs)

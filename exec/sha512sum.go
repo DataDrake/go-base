@@ -3,14 +3,14 @@ package exec
 
 import (
 	"crypto"
-	"github.com/DataDrake/go-base/cmd"
+	"github.com/DataDrake/cli-ng/cmd"
 )
 
 func init() {
     cmd.Register(&SHA512Sum)
 }
 
-var SHA512Sum = cmd.CMD {
+var SHA512Sum = cmd.Sub {
     Name: "sha512sum",
     Short: "compute and check SHA512 sums",
     Flags: &SumFlags{
@@ -20,7 +20,7 @@ var SHA512Sum = cmd.CMD {
     Run: SHA512SumRun,
 }
 
-func SHA512SumRun(r *cmd.Root, c *cmd.CMD) {
+func SHA512SumRun(r *cmd.Root, c *cmd.Sub) {
     // gFlags := r.Flags.(*GlobalFlags)
     flags := c.Flags.(*SumFlags)
     args := c.Args.(*SumArgs)

@@ -3,7 +3,7 @@ package exec
 
 import (
 	"encoding/base32"
-	"github.com/DataDrake/go-base/cmd"
+	"github.com/DataDrake/cli-ng/cmd"
 	"fmt"
 	"io"
 	"log"
@@ -14,7 +14,7 @@ func init() {
 	cmd.Register(&Base32)
 }
 
-var Base32 = cmd.CMD {
+var Base32 = cmd.Sub {
 	Name: "base32",
 	Short: "base32 encode/decode data and print to standard output",
 	Flags: &Base32Flags{},
@@ -30,7 +30,7 @@ type Base32Args struct {
 	File string `desc:"File to encode or decode"`
 }
 
-func Base32Run(r *cmd.Root, c *cmd.CMD) {
+func Base32Run(r *cmd.Root, c *cmd.Sub) {
 	// gFlags := r.Flags.(*GlobalFlags)
 	flags := c.Flags.(*Base32Flags)
 	args := c.Args.(*Base32Args)

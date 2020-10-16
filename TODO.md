@@ -111,14 +111,14 @@
     - [ ] uname
 
 - [ ] Sums
-    - [ ] b2sum
+    - [x] b2sum
     - [x] cksum
-    - [ ] md5sum
-    - [ ] sha1sum
-    - [ ] sha224sum
-    - [ ] sha256sum
-    - [ ] sha384sum
-    - [ ] sha512sum
+    - [x] md5sum
+    - [x] sha1sum
+    - [x] sha224sum
+    - [x] sha256sum
+    - [x] sha384sum
+    - [x] sha512sum
     - [ ] sum
 
 - [ ] Users

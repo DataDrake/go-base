@@ -3,14 +3,14 @@ package exec
 
 import (
 	"crypto"
-	"github.com/DataDrake/go-base/cmd"
+	"github.com/DataDrake/cli-ng/cmd"
 )
 
 func init() {
     cmd.Register(&SHA256Sum)
 }
 
-var SHA256Sum = cmd.CMD {
+var SHA256Sum = cmd.Sub {
     Name: "sha256sum",
     Short: "compute and check SHA256 sums",
     Flags: &SumFlags{
@@ -20,7 +20,7 @@ var SHA256Sum = cmd.CMD {
     Run: SHA256SumRun,
 }
 
-func SHA256SumRun(r *cmd.Root, c *cmd.CMD) {
+func SHA256SumRun(r *cmd.Root, c *cmd.Sub) {
     // gFlags := r.Flags.(*GlobalFlags)
     flags := c.Flags.(*SumFlags)
     args := c.Args.(*SumArgs)

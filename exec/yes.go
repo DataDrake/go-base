@@ -3,7 +3,7 @@ package exec
 
 import (
     "bufio"
-	"github.com/DataDrake/go-base/cmd"
+	"github.com/DataDrake/cli-ng/cmd"
 	"strings"
     "os"
 )
@@ -12,7 +12,7 @@ func init() {
     cmd.Register(&Yes)
 }
 
-var Yes = cmd.CMD {
+var Yes = cmd.Sub {
     Name: "yes",
     Short: "output a string repeatedly until killed",
     Flags: &YesFlags{},
@@ -26,7 +26,7 @@ type YesArgs struct {
     Strings []string `desc:"String(s) to print out"`
 }
 
-func YesRun(r *cmd.Root, c *cmd.CMD) {
+func YesRun(r *cmd.Root, c *cmd.Sub) {
     // gFlags := r.Flags.(*GlobalFlags)
     // flags := c.Flags.(*YesFlags)
     args := c.Args.(*YesArgs)
