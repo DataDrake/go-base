@@ -1,4 +1,21 @@
+//
+// Copyright 2016-2020 Bryan T. Meyers <root@datadrake.com>
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
 // +build !notty
+
 package exec
 
 import (
@@ -10,25 +27,28 @@ import (
 )
 
 func init() {
-    cmd.Register(&TTY)
+	cmd.Register(&TTY)
 }
 
-var TTY = cmd.Sub {
-    Name: "tty",
-    Short: "print the file name of the terminal connected to standard input",
-    Flags: &TTYFlags{},
-    Args: &TTYArgs{},
-    Run: TTYRun,
+// TTY implements the "tty" subcommand
+var TTY = cmd.Sub{
+	Name:  "tty",
+	Short: "print the file name of the terminal connected to standard input",
+	Flags: &TTYFlags{},
+	Args:  &TTYArgs{},
+	Run:   TTYRun,
 }
 
+// TTYFlags are flags unique to the "tty" subcommand
 type TTYFlags struct {
-    Silent bool `short:"s" long:"silent" desc:"print nothing, only return an exit status"`
-    Quiet bool `short:"q" long:"quiet" desc:"alias for (s) silent"`
+	Silent bool `short:"s" long:"silent" desc:"print nothing, only return an exit status"`
+	Quiet  bool `short:"q" long:"quiet" desc:"alias for (s) silent"`
 }
 
-type TTYArgs struct {}
+// TTYArgs are args unique to the "tty" subcommand
+type TTYArgs struct{}
 
-func findRdev(dev_id uint64, path string) (dev string, err error) {
+func findRdev(devID uint64, path string) (dev string, err error) {
 	dir, err := os.Open(path)
 	if err != nil {
 		return
@@ -37,13 +57,13 @@ func findRdev(dev_id uint64, path string) (dev string, err error) {
 	if err != nil {
 		return
 	}
-	var dev_stat syscall.Stat_t
+	var devStat syscall.Stat_t
 	for _, f := range files {
-		err = syscall.Stat(filepath.Join(path, f), &dev_stat)
+		err = syscall.Stat(filepath.Join(path, f), &devStat)
 		if err != nil {
 			return
 		}
-		if dev_id == dev_stat.Dev {
+		if devID == devStat.Dev {
 			dev = filepath.Join(path, f)
 			return
 		}
@@ -51,20 +71,21 @@ func findRdev(dev_id uint64, path string) (dev string, err error) {
 	return "", fmt.Errorf("device not found")
 }
 
+// TTYRun carries out the "tty" subcommand
 func TTYRun(r *cmd.Root, c *cmd.Sub) {
-    // gFlags := r.Flags.(*GlobalFlags)
-    flags := c.Flags.(*TTYFlags)
-    // args := c.Args.(*TTYArgs)
+	// gFlags := r.Flags.(*GlobalFlags)
+	flags := c.Flags.(*TTYFlags)
+	// args := c.Args.(*TTYArgs)
 
-	var term_stat syscall.Stat_t
-	err := syscall.Fstat(int(os.Stdin.Fd()), &term_stat)
+	var termStat syscall.Stat_t
+	err := syscall.Fstat(int(os.Stdin.Fd()), &termStat)
 	if err != nil {
 		if !flags.Silent && !flags.Quiet {
 			fmt.Println(err.Error())
 		}
 		os.Exit(1)
 	}
-	dev, err := findRdev(term_stat.Dev, "/dev/pts")
+	dev, err := findRdev(termStat.Dev, "/dev/pts")
 	if err != nil {
 		if !flags.Silent && !flags.Quiet {
 			fmt.Println(err.Error())
@@ -72,7 +93,7 @@ func TTYRun(r *cmd.Root, c *cmd.Sub) {
 		os.Exit(1)
 	}
 	if len(dev) == 0 {
-		dev, err = findRdev(term_stat.Dev, "/dev")
+		dev, err = findRdev(termStat.Dev, "/dev")
 		if err != nil {
 			if !flags.Silent && !flags.Quiet {
 				fmt.Println(err.Error())

@@ -1,4 +1,21 @@
+//
+// Copyright 2016-2020 Bryan T. Meyers <root@datadrake.com>
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
 // +build !nocat
+
 package exec
 
 import (
@@ -11,20 +28,22 @@ import (
 )
 
 func init() {
-    cmd.Register(&Cat)
+	cmd.Register(&Cat)
 }
 
-var Cat = cmd.Sub {
-    Name: "cat",
-    Short: "concatenate files and print on the standard output",
-    Flags: &CatFlags{},
-    Args: &CatArgs{},
-    Run: CatRun,
+// Cat implements the "cat" subcommand
+var Cat = cmd.Sub{
+	Name:  "cat",
+	Short: "concatenate files and print on the standard output",
+	Flags: &CatFlags{},
+	Args:  &CatArgs{},
+	Run:   CatRun,
 }
 
+// CatFlags are flags unique to the "cat" subcommand
 type CatFlags struct {
-    All             bool `short:"A" long:"all"         desc:"equivalent to -v -E -T"`
-    NumberSome      bool `short:"b"                    desc:"number nonempty output lines, overrides -n"`
+	All             bool `short:"A" long:"all"         desc:"equivalent to -v -E -T"`
+	NumberSome      bool `short:"b"                    desc:"number nonempty output lines, overrides -n"`
 	NonprintingEnds bool `short:"e"                    desc:"equivalent to -v -E"`
 	Ends            bool `short:"E" long:"ends"        desc:"display $ at the end of each line"`
 	Number          bool `short:"n" long:"number"      desc:"number all output lines"`
@@ -34,11 +53,13 @@ type CatFlags struct {
 	Nonprinting     bool `short:"v" long:"nonprinting" desc:"use ^ and M- notation, except for LFD and TAB"`
 }
 
+// CatArgs are args unique to the "cat" subcommand
 type CatArgs struct {
-    Files []string `desc:"Files to concatenate"`
+	Files []string `desc:"Files to concatenate"`
 }
 
-var catReplaces = []string {
+// catReplaces map non-printable characters to their printable counterparts
+var catReplaces = []string{
 	"\000", "^@",
 	"\001", "^A",
 	"\002", "^B",
@@ -72,10 +93,11 @@ var catReplaces = []string {
 	"\177", "^?",
 }
 
+// CatRun carries out the "cat" subcommand
 func CatRun(r *cmd.Root, c *cmd.Sub) {
-    // gFlags := r.Flags.(*GlobalFlags)
-    flags := c.Flags.(*CatFlags)
-    args := c.Args.(*CatArgs)
+	// gFlags := r.Flags.(*GlobalFlags)
+	flags := c.Flags.(*CatFlags)
+	args := c.Args.(*CatArgs)
 	if flags.All {
 		flags.Nonprinting = true
 		flags.Ends = true
@@ -92,7 +114,7 @@ func CatRun(r *cmd.Root, c *cmd.Sub) {
 	if flags.NumberSome {
 		flags.Number = false
 	}
-	prev_empty := false
+	prevEmpty := false
 	lineno := 1
 	replacer := strings.NewReplacer(catReplaces...)
 	for _, file := range args.Files {
@@ -118,7 +140,7 @@ func CatRun(r *cmd.Root, c *cmd.Sub) {
 				line = replacer.Replace(line)
 			}
 			//ignore squeeze lines
-			if (flags.Squeeze && prev_empty && (len(line) == 0)) {
+			if flags.Squeeze && prevEmpty && (len(line) == 0) {
 				lineno++
 				continue
 			}
@@ -130,7 +152,7 @@ func CatRun(r *cmd.Root, c *cmd.Sub) {
 			}
 			fmt.Println(formatted)
 			// keep track of empty lines and line number
-			prev_empty = len(line) == 0
+			prevEmpty = len(line) == 0
 			lineno++
 		}
 		f.Close()

@@ -8,10 +8,10 @@ SYSTEMD   ?= $(SYSCONFDIR)/systemd/system
 GOPROJROOT  = $(GOSRC)/$(PROJREPO)
 
 GOLDFLAGS   = -ldflags "-s -w"
-GOCC        = CGO_ENABLED=0 go
+GOCC        = go
 GOFMT       = $(GOCC) fmt -x
 GOGET       = $(GOCC) get $(GOLDFLAGS)
-GOBUILD     = $(GOCC) build -v $(GOLDFLAGS)
+GOBUILD     = CGO_ENABLED=0 $(GOCC) build -v $(GOLDFLAGS)
 GOTEST      = $(GOCC) test
 GOVET       = $(GOCC) vet
 GOINSTALL   = $(GOCC) install $(GOLDFLAGS)
@@ -36,10 +36,12 @@ test: build
 
 validate:
 	@$(call stage,FORMAT)
-	@$(GOFMT) ./... @$(call pass,FORMAT)
+	@$(GOFMT) ./...
+	@$(call pass,FORMAT)
 	@$(call stage,VET)
 	@$(call task,Running 'go vet'...)
-	@$(GOVET) ./... @$(call pass,VET)
+	@$(GOVET) ./...
+	@$(call pass,VET)
 	@$(call stage,LINT)
 	@$(call task,Running 'golint'...)
 	@$(GOLINT) ./...

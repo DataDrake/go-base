@@ -1,4 +1,21 @@
+//
+// Copyright 2016-2020 Bryan T. Meyers <root@datadrake.com>
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
 // +build !nocksum
+
 package exec
 
 import (
@@ -10,27 +27,31 @@ import (
 )
 
 func init() {
-    cmd.Register(&CkSum)
+	cmd.Register(&CkSum)
 }
 
-var CkSum = cmd.Sub {
-    Name: "cksum",
-    Short: "checksum and count the bytes in a file",
-    Flags: &CkSumFlags{},
-    Args: &CkSumArgs{},
-    Run: CkSumRun,
+// CkSum implements the "cksum" subcommand
+var CkSum = cmd.Sub{
+	Name:  "cksum",
+	Short: "checksum and count the bytes in a file",
+	Flags: &CkSumFlags{},
+	Args:  &CkSumArgs{},
+	Run:   CkSumRun,
 }
 
-type CkSumFlags struct {}
+// CkSumFlags are flags unique to the "cksum" subcommand
+type CkSumFlags struct{}
 
+// CkSumArgs are args unique to the "cksum" subcommand
 type CkSumArgs struct {
-    File string `desc:"File to encode or decode"`
+	File string `desc:"File to encode or decode"`
 }
 
+// CkSumRun carries out the "cksum" subcommand
 func CkSumRun(r *cmd.Root, c *cmd.Sub) {
-    // gFlags := r.Flags.(*GlobalFlags)
-    // flags := c.Flags.(*CkSumFlags)
-    args := c.Args.(*CkSumArgs)
+	// gFlags := r.Flags.(*GlobalFlags)
+	// flags := c.Flags.(*CkSumFlags)
+	args := c.Args.(*CkSumArgs)
 
 	input, err := os.Open(args.File)
 	if err != nil {
