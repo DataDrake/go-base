@@ -93,27 +93,31 @@ var catReplaces = []string{
 	"\177", "^?",
 }
 
+func (f *CatFlags) Clean() {
+	if f.All {
+		f.Nonprinting = true
+		f.Ends = true
+		f.Tabs = true
+	}
+	if f.NonprintingEnds {
+		f.Nonprinting = true
+		f.Ends = true
+	}
+	if f.NonprintingTabs {
+		f.Nonprinting = true
+		f.Tabs = true
+	}
+	if f.NumberSome {
+		f.Number = false
+	}
+}
+
 // CatRun carries out the "cat" subcommand
 func CatRun(r *cmd.Root, c *cmd.Sub) {
 	// gFlags := r.Flags.(*GlobalFlags)
 	flags := c.Flags.(*CatFlags)
+	flags.Clean()
 	args := c.Args.(*CatArgs)
-	if flags.All {
-		flags.Nonprinting = true
-		flags.Ends = true
-		flags.Tabs = true
-	}
-	if flags.NonprintingEnds {
-		flags.Nonprinting = true
-		flags.Ends = true
-	}
-	if flags.NonprintingTabs {
-		flags.Nonprinting = true
-		flags.Tabs = true
-	}
-	if flags.NumberSome {
-		flags.Number = false
-	}
 	prevEmpty := false
 	lineno := 1
 	replacer := strings.NewReplacer(catReplaces...)
