@@ -93,6 +93,7 @@ var catReplaces = []string{
 	"\177", "^?",
 }
 
+// Clean makes sure the flags are minimally set
 func (f *CatFlags) Clean() {
 	if f.All {
 		f.Nonprinting = true
@@ -131,9 +132,14 @@ func CatRun(r *cmd.Root, c *cmd.Sub) {
 		for scanner.Scan() {
 			line := scanner.Text()
 			var formatted string
+			//ignore squeeze lines
+			if flags.Squeeze && prevEmpty && (line == "") {
+				continue
+			}
 			//add line number to line
-			if flags.Number || (flags.NumberSome && (len(line) > 0)) {
+			if flags.Number || (flags.NumberSome && line != "") {
 				formatted = strconv.Itoa(lineno) + " "
+				lineno++
 			}
 			//show invisible tab characters
 			if flags.Tabs {
@@ -142,11 +148,6 @@ func CatRun(r *cmd.Root, c *cmd.Sub) {
 			//resolve other non-printing characters
 			if flags.Nonprinting {
 				line = replacer.Replace(line)
-			}
-			//ignore squeeze lines
-			if flags.Squeeze && prevEmpty && (len(line) == 0) {
-				lineno++
-				continue
 			}
 			//add line to params
 			formatted += line
@@ -157,7 +158,6 @@ func CatRun(r *cmd.Root, c *cmd.Sub) {
 			fmt.Println(formatted)
 			// keep track of empty lines and line number
 			prevEmpty = len(line) == 0
-			lineno++
 		}
 		f.Close()
 	}

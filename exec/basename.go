@@ -68,18 +68,16 @@ func BasenameRun(r *cmd.Root, c *cmd.Sub) {
 	// gFlags := r.Flags.(*GlobalFlags)
 	flags := c.Flags.(*BasenameFlags)
 	args := c.Args.(*BasenameArgs)
-
 	if len(args.Paths) == 0 {
 		r.SubUsage(c)
 		os.Exit(1)
 	}
-
 	if flags.Multiple || len(flags.Suffix) > 0 {
 		for _, path := range args.Paths {
 			getBase(path, flags.Suffix, flags.Zero)
 		}
 	} else {
-		if len(args.Paths) > 0 {
+		if len(args.Paths) > 1 {
 			r.SubUsage(c)
 			os.Exit(1)
 		}

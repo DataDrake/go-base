@@ -31,21 +31,10 @@ func init() {
 var True = cmd.Sub{
 	Name:  "true",
 	Short: "do nothing, successfully",
-	Flags: &TrueFlags{},
-	Args:  &TrueArgs{},
 	Run:   TrueRun,
 }
 
-// TrueFlags are flags unique to the "true" subcommand
-type TrueFlags struct{}
-
-// TrueArgs are args unique to the "true" subcommand
-type TrueArgs struct{}
-
 // TrueRun carries out the "true" subcommand
 func TrueRun(r *cmd.Root, c *cmd.Sub) {
-	// gFlags := r.Flags.(*GlobalFlags)
-	// flags := c.Flags.(*TrueFlags)
-	// args := c.Args.(*TrueArgs)
 	os.Exit(0)
 }

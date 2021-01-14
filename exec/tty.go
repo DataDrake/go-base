@@ -35,7 +35,6 @@ var TTY = cmd.Sub{
 	Name:  "tty",
 	Short: "print the file name of the terminal connected to standard input",
 	Flags: &TTYFlags{},
-	Args:  &TTYArgs{},
 	Run:   TTYRun,
 }
 
@@ -44,9 +43,6 @@ type TTYFlags struct {
 	Silent bool `short:"s" long:"silent" desc:"print nothing, only return an exit status"`
 	Quiet  bool `short:"q" long:"quiet" desc:"alias for (s) silent"`
 }
-
-// TTYArgs are args unique to the "tty" subcommand
-type TTYArgs struct{}
 
 func findRdev(devID uint64, path string) (dev string, err error) {
 	dir, err := os.Open(path)
@@ -75,8 +71,6 @@ func findRdev(devID uint64, path string) (dev string, err error) {
 func TTYRun(r *cmd.Root, c *cmd.Sub) {
 	// gFlags := r.Flags.(*GlobalFlags)
 	flags := c.Flags.(*TTYFlags)
-	// args := c.Args.(*TTYArgs)
-
 	var termStat syscall.Stat_t
 	err := syscall.Fstat(int(os.Stdin.Fd()), &termStat)
 	if err != nil {

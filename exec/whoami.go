@@ -33,22 +33,12 @@ func init() {
 var WhoAmI = cmd.Sub{
 	Name:  "whoami",
 	Short: "print effective userid",
-	Flags: &WhoAmIFlags{},
-	Args:  &WhoAmIArgs{},
 	Run:   WhoAmIRun,
 }
-
-// WhoAmIFlags are flags unique to the "whoami" subcommand
-type WhoAmIFlags struct{}
-
-// WhoAmIArgs are args unique to the "whoami" subcommand
-type WhoAmIArgs struct{}
 
 // WhoAmIRun carries out the "whoami" subcommand
 func WhoAmIRun(r *cmd.Root, c *cmd.Sub) {
 	// gFlags := r.Flags.(*GlobalFlags)
-	// flags := c.Flags.(*WhoAmIFlags)
-	// args := c.Args.(*WhoAmIArgs)
 	u, err := user.Current()
 	if err != nil {
 		fmt.Println(err.Error())

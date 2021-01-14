@@ -21,15 +21,13 @@ import (
 	_ "github.com/DataDrake/go-base/exec"
 )
 
-// GlobalFlags are shared by all subcommands
-type GlobalFlags struct{}
-
 func main() {
 	r := cmd.Root{
 		Name:   "go-base",
 		Short:  "Alternative to GNU Coreutils written in Go",
-		Flags:  &GlobalFlags{},
 		Single: true,
 	}
+    cmd.Register(&cmd.GenManPages)
+    cmd.Register(&cmd.GenSingleLinks)
 	r.Run()
 }

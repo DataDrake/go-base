@@ -31,21 +31,10 @@ func init() {
 var False = cmd.Sub{
 	Name:  "false",
 	Short: "do nothing, unsuccessfully",
-	Flags: &FalseFlags{},
-	Args:  &FalseArgs{},
 	Run:   FalseRun,
 }
 
-// FalseFlags are flags unique to the "false" subcommand
-type FalseFlags struct{}
-
-// FalseArgs are args unique to the "false" subcommand
-type FalseArgs struct{}
-
 // FalseRun carries out the "false" subcommand
 func FalseRun(r *cmd.Root, c *cmd.Sub) {
-	// gFlags := r.Flags.(*GlobalFlags)
-	//flags := c.Flags.(*FalseFlags)
-	//args := c.Args.(*FalseArgs)
 	os.Exit(1)
 }

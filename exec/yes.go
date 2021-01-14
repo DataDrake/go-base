@@ -33,23 +33,18 @@ func init() {
 var Yes = cmd.Sub{
 	Name:  "yes",
 	Short: "output a string repeatedly until killed",
-	Flags: &YesFlags{},
 	Args:  &YesArgs{},
 	Run:   YesRun,
 }
 
-// YesFlags are flags unique to the "yes" subcommand
-type YesFlags struct{}
-
 // YesArgs are args unique to the "yes" subcommand
 type YesArgs struct {
-	Strings []string `desc:"String(s) to print out"`
+	Strings []string `zero:"yes" desc:"String(s) to print out"`
 }
 
 // YesRun carries out the "yes" subcommand
 func YesRun(r *cmd.Root, c *cmd.Sub) {
 	// gFlags := r.Flags.(*GlobalFlags)
-	// flags := c.Flags.(*YesFlags)
 	args := c.Args.(*YesArgs)
 	s := "y"
 	if len(args.Strings) > 0 {

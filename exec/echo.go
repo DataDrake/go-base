@@ -57,12 +57,10 @@ func EchoRun(r *cmd.Root, c *cmd.Sub) {
 	// gFlags := r.Flags.(*GlobalFlags)
 	flags := c.Flags.(*EchoFlags)
 	args := c.Args.(*EchoArgs)
-
 	if flags.Escapes {
 		fmt.Println("Escapes are not currently supported")
 		os.Exit(1)
 	}
-
 	for _, v := range args.Strings {
 		if flags.Escapes && !flags.NoEscapes {
 			v = strings.Replace(v, "\\n", "\n", -1)

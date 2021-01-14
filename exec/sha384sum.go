@@ -43,6 +43,5 @@ func SHA384SumRun(r *cmd.Root, c *cmd.Sub) {
 	// gFlags := r.Flags.(*GlobalFlags)
 	flags := c.Flags.(*SumFlags)
 	args := c.Args.(*SumArgs)
-
 	sumRun(flags, args, crypto.SHA384, crypto.SHA384.Size()*8)
 }

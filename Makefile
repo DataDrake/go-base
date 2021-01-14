@@ -2,8 +2,8 @@ PKGNAME    = go-base
 DESTDIR   ?=
 PREFIX    ?= /usr/local
 BINDIR     = $(PREFIX)/bin
-SYSCONFDIR = /etc
-SYSTEMD   ?= $(SYSCONFDIR)/systemd/system
+DATADIR    = $(PREFIX)/share/$(PKGNAME)
+MANDIR     = $(PREFIX)/share/man/man1
 
 GOPROJROOT  = $(GOSRC)/$(PROJREPO)
 
@@ -15,8 +15,6 @@ GOBUILD     = CGO_ENABLED=0 $(GOCC) build -v $(GOLDFLAGS)
 GOTEST      = $(GOCC) test
 GOVET       = $(GOCC) vet
 GOINSTALL   = $(GOCC) install $(GOLDFLAGS)
-
-EXES = base64 basename cat cksum echo false true tty whoami yes
 
 include Makefile.waterlog
 
@@ -52,25 +50,22 @@ install:
 	@$(call task,Installing 'go-base'...)
 	install -Dm 00755 $(PKGNAME) $(DESTDIR)$(BINDIR)/$(PKGNAME)
 	@$(call task,Creating symlinks...)
-	@for exe in $(EXES); do \
-	    ln -s $(PKGNAME) $(DESTDIR)$(BINDIR)/$$exe; \
-	done
+	@ln -s go-base gen-single-links
+	./gen-single-links $(DESTDIR)$(BINDIR)
+	@rm gen-single-links
+	@$(call task,Creating manpages...)
+	@ln -s go-base gen-man-pages
+	./gen-man-pages
+	@rm gen-man-pages
+	@$(call task,Installing manpages...)
+	install -t $(DESTDIR)$(MANDIR) -Dm00644 *.1
+	@rm *.1
 	@$(call pass,INSTALL)
-
-uninstall:
-	@$(call stage,UNINSTALL)
-	@$(call task,Removing 'go-base'...)
-	rm -f $(DESTDIR)$(BINDIR)/$(PKGNAME)
-	@$(call task,Removing symlinks...)
-	@for exe in $(EXES); do \
-	    unlink $(DESTDIR)$(BINDIR)/$$exe; \
-	done
-	@$(call pass,UNINSTALL)
 
 clean:
 	@$(call stage,CLEAN)
 	@$(call task,Removing man-pages...)
-	@rm *.1
+	@rm *.1 || true
 	@$(call task,Removing executable...)
 	@rm $(PKGNAME)
 	@$(call pass,CLEAN)

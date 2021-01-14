@@ -43,6 +43,5 @@ func MD5SumRun(r *cmd.Root, c *cmd.Sub) {
 	// gFlags := r.Flags.(*GlobalFlags)
 	flags := c.Flags.(*SumFlags)
 	args := c.Args.(*SumArgs)
-
 	sumRun(flags, args, crypto.MD5, crypto.MD5.Size()*8)
 }

@@ -21,7 +21,7 @@ package exec
 import (
 	"fmt"
 	"github.com/DataDrake/cli-ng/cmd"
-	"hash/adler32"
+	"hash/crc32"
 	"io"
 	"os"
 )
@@ -33,36 +33,41 @@ func init() {
 // CkSum implements the "cksum" subcommand
 var CkSum = cmd.Sub{
 	Name:  "cksum",
-	Short: "checksum and count the bytes in a file",
-	Flags: &CkSumFlags{},
+	Short: "checksum and count the bytes in a file (IEEE CRC-32, not POSIX)",
 	Args:  &CkSumArgs{},
 	Run:   CkSumRun,
 }
 
-// CkSumFlags are flags unique to the "cksum" subcommand
-type CkSumFlags struct{}
-
 // CkSumArgs are args unique to the "cksum" subcommand
 type CkSumArgs struct {
-	File string `desc:"File to encode or decode"`
+	Files []string `zero:"yes" desc:"File to encode or decode"`
 }
 
 // CkSumRun carries out the "cksum" subcommand
 func CkSumRun(r *cmd.Root, c *cmd.Sub) {
 	// gFlags := r.Flags.(*GlobalFlags)
-	// flags := c.Flags.(*CkSumFlags)
 	args := c.Args.(*CkSumArgs)
+	if len(args.Files) == 0 {
+		ckSum(os.Stdin, "")
+		return
+	}
+	for _, f := range args.Files {
+		input, err := os.Open(f)
+		if err != nil {
+			fmt.Println(err.Error())
+			os.Exit(1)
+		}
+		ckSum(input, f)
+		input.Close()
+	}
+}
 
-	input, err := os.Open(args.File)
+func ckSum(in io.Reader, name string) {
+	h := crc32.NewIEEE()
+	size, err := io.Copy(h, in)
 	if err != nil {
 		fmt.Println(err.Error())
 		os.Exit(1)
 	}
-	h := adler32.New()
-	size, err := io.Copy(h, input)
-	if err != nil {
-		fmt.Println(err.Error())
-		os.Exit(1)
-	}
-	fmt.Printf("%d %d %s\n", h.Sum32(), size, args.File)
+	fmt.Printf("%d %d %s\n", h.Sum32(), size, name)
 }

@@ -63,7 +63,6 @@ func B2SumRun(r *cmd.Root, c *cmd.Sub) {
 	// gFlags := r.Flags.(*GlobalFlags)
 	flags := c.Flags.(*B2SumFlags)
 	args := c.Args.(*SumArgs)
-
 	length := crypto.BLAKE2b_512.Size() * 8
 	if flags.Length > 0 {
 		length = int(flags.Length)
